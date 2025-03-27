@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Book appointments, manage health records, and schedule tests all in one place."
+    />
+    <title>AuraMed - Healthcare Made Simple</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --background-color: #ffe6e6;
+        --primary-color: #009688;
+        --heading-color: #333;
+        --body-text-color: #666;
+        --card-background: #fff;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Inter", sans-serif;
+        color: var(--body-text-color);
+        background-color: var(--background-color);
+      }
+
+      header {
+        background-color: var(--card-background);
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 10;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      nav a {
+        text-decoration: none;
+        color: var(--primary-color);
+        font-weight: bold;
+        font-size: 1.5rem;
+      }
+
+      nav ul {
+        list-style: none;
+        display: flex;
+        gap: 1.5rem;
+      }
+
+      nav ul li a {
+        color: var(--body-text-color);
+        transition: color 0.3s;
+      }
+
+      nav ul li a:hover {
+        color: var(--primary-color);
+      }
+
+      .hero {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 60px;
+        overflow: hidden;
+      }
+
+      .hero-content {
+        position: relative;
+        text-align: center;
+        color: var(--heading-color);
+        max-width: 600px;
+
+        z-index: 1;
+      }
+
+      .hero-content h1 {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        color: var(--heading-color);
+      }
+
+      .hero-content p {
+        font-size: 1.25rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .hero-content a {
+        display: inline-block;
+        background-color: var(--primary-color);
+        color: var(--card-background);
+        padding: 0.75rem 1.5rem;
+        font-weight: bold;
+        border-radius: 999px;
+        text-decoration: none;
+        transition: background-color 0.3s, transform 0.3s;
+      }
+
+      .hero-content a:hover {
+        background-color: #007d71;
+        transform: translateY(-2px);
+      }
+
+      .animated-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+      }
+
+      .circle {
+        position: absolute;
+        border-radius: 50%;
+        opacity: 0.1;
+        animation: float 20s infinite ease-in-out;
+      }
+
+      .circle:nth-child(1) {
+        width: 300px;
+        height: 300px;
+        background-color: var(--primary-color);
+        top: 10%;
+        left: 10%;
+        animation-delay: 0s;
+      }
+
+      .circle:nth-child(2) {
+        width: 200px;
+        height: 200px;
+        background-color: #4db6ac;
+        top: 60%;
+        right: 15%;
+        animation-delay: 5s;
+      }
+
+      .circle:nth-child(3) {
+        width: 150px;
+        height: 150px;
+        background-color: #80cbc4;
+        bottom: 10%;
+        left: 20%;
+        animation-delay: 10s;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-20px) rotate(10deg);
+        }
+      }
+
+      .features {
+        padding: 4rem 2rem;
+        text-align: center;
+        background-color: var(--card-background);
+      }
+
+      .features h2 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 2rem;
+        color: var(--heading-color);
+      }
+
+      .carousel-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .carousel {
+        display: flex;
+        transition: transform 0.5s ease;
+      }
+
+      .carousel-item {
+        flex: 0 0 100%;
+        padding: 2rem;
+        box-sizing: border-box;
+      }
+
+      .carousel-item-content {
+        background-color: var(--background-color);
+        border-radius: 1rem;
+        padding: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+      }
+
+      .carousel-item-content:hover {
+        transform: translateY(-5px);
+      }
+
+      .carousel-item h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--heading-color);
+      }
+
+      .carousel-item p {
+        color: var(--body-text-color);
+      }
+
+      .carousel-item-icon {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 1rem;
+      }
+
+      .carousel-item-icon svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      .carousel-nav {
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+      }
+
+      .carousel-nav-item {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: var(--body-text-color);
+        margin: 0 0.5rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .carousel-nav-item.active {
+        background-color: var(--primary-color);
+      }
+
+      .hero-graphics {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        opacity: 0.1;
+      }
+
+      .hero-graphics svg {
+        position: absolute;
+        width: 150px;
+        height: 150px;
+      }
+
+      .hero-graphics .hospital {
+        top: 10%;
+        left: 5%;
+        animation: float 15s infinite ease-in-out;
+      }
+
+      .hero-graphics .patient {
+        bottom: 15%;
+        right: 10%;
+        animation: float 18s infinite ease-in-out;
+      }
+
+      .hero-graphics .nurse {
+        top: 20%;
+        right: 15%;
+        animation: float 20s infinite ease-in-out;
+      }
+
+      footer {
+        background-color: var(--primary-color);
+        color: var(--card-background);
+        padding: 2rem 2rem;
+        text-align: center;
+      }
+
+      footer a {
+        color: var(--background-color);
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      footer a:hover {
+        color: var(--card-background);
+      }
+
+      @media (max-width: 768px) {
+        nav {
+          flex-direction: column;
+          padding: 1rem;
+        }
+
+        nav ul {
+          margin-top: 1rem;
+        }
+
+        .hero-content h1 {
+          font-size: 2.5rem;
+        }
+
+        .hero-graphics svg {
+          width: 100px;
+          height: 100px;
+        }
+      }
+
+      /* Modal Styles */
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 1001;
+        text-align: center;
+      }
+
+      .modal h2 {
+        margin-bottom: 1rem;
+      }
+
+      .modal-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+      }
+
+      .modal-button {
+        padding: 0.75rem 1.5rem;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .modal-button:hover {
+        background-color: #007d71;
+      }
+      .logo-container {
+        display: flex; /* Align image and text horizontally */
+        align-items: center; /* Vertically center align */
+        text-decoration: none; /* Remove underline from link */
+      }
+
+      .logo-img {
+        width: 80px; /* Adjust image size as needed */
+        height: auto; /* Maintain aspect ratio */
+        margin-right: 8px; /* Space between image and text */
+      }
+
+      .logo-container:hover {
+        text-decoration: underline; /* Optional: Add hover effect */
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="/" class="logo-container">
+          <img
+            src="static/AuraMedlogo.png"
+            alt="AuraMed Logo"
+            class="logo-img"
+          />
+          AuraMed
+        </a>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="animated-background">
+          <div class="circle"></div>
+          <div class="circle"></div>
+          <div class="circle"></div>
+        </div>
+        <div class="hero-graphics">
+          <svg
+            class="hospital"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M2 22V7C2 5.34315 3.34315 4 5 4H19C20.6569 4 22 5.34315 22 7V22"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <path
+              d="M2 22H22"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <path
+              d="M12 4V2"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <path
+              d="M11 12H13"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <path
+              d="M12 11V13"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <path
+              d="M6 8H8"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <path
+              d="M16 8H18"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <path
+              d="M6 16H8"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <path
+              d="M16 16H18"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+          <svg
+            class="patient"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="12"
+              cy="7"
+              r="5"
+              stroke="currentColor"
+              stroke-width="2"
+            />
+            <path
+              d="M17 22H7C5.34315 22 4 20.6569 4 19V18C4 15.7909 5.79086 14 8 14H16C18.2091 14 20 15.7909 20 18V19C20 20.6569 18.6569 22 17 22Z"
+              stroke="currentColor"
+              stroke-width="2"
+            />
+          </svg>
+          <svg
+            class="nurse"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="12"
+              cy="7"
+              r="5"
+              stroke="currentColor"
+              stroke-width="2"
+            />
+            <path
+              d="M17 22H7C5.34315 22 4 20.6569 4 19V18C4 15.7909 5.79086 14 8 14H16C18.2091 14 20 15.7909 20 18V19C20 20.6569 18.6569 22 17 22Z"
+              stroke="currentColor"
+              stroke-width="2"
+            />
+            <path
+              d="M9 10L15 10"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+            <path
+              d="M12 7L12 13"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </div>
+        <div class="hero-content">
+          <h1>Healthcare Made Simple</h1>
+          <p>
+            Book appointments, manage health records, and schedule tests all in
+            one place.
+          </p>
+          <button id="startButton" class="modal-button">Get Started</button>
+        </div>
+      </section>
+
+      <section id="features" class="features">
+        <h2>Why Choose AuraMed</h2>
+        <div class="carousel-container">
+          <div class="carousel">
+            <div class="carousel-item">
+              <div class="carousel-item-content">
+                <div class="carousel-item-icon">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect
+                      x="3"
+                      y="4"
+                      width="18"
+                      height="18"
+                      rx="2"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    />
+                    <path d="M3 10H21" stroke="currentColor" stroke-width="2" />
+                    <path
+                      d="M16 2V6"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M8 2V6"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                    <circle cx="12" cy="15" r="2" fill="currentColor" />
+                  </svg>
+                </div>
+                <h3>Easy Booking</h3>
+                <p>
+                  Schedule appointments and tests with your preferred healthcare
+                  providers in just a few clicks.
+                </p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="carousel-item-content">
+                <div class="carousel-item-icon">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3Z"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M7 7H17"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M7 12H17"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M7 17H13"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </div>
+                <h3>Digital Records</h3>
+                <p>
+                  Access your medical records ,test results and health data
+                  anytime, anywhere.
+                </p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="carousel-item-content">
+                <div class="carousel-item-icon">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M18 8C18 6.4087 17.3679 4.88258 16.2426 3.75736C15.1174 2.63214 13.5913 2 12 2C10.4087 2 8.88258 2.63214 7.75736 3.75736C6.63214 4.88258 6 6.4087 6 8C6 15 3 17 3 17H21C21 17 18 15 18 8Z"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M13.73 21C13.5542 21.3031 13.3019 21.5547 12.9982 21.7295C12.6946 21.9044 12.3504 21.9965 12 21.9965C11.6496 21.9965 11.3054 21.9044 11.0018 21.7295C10.6982 21.5547 10.4458 21.3031 10.27 21"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+                <h3>Smart Reminders</h3>
+                <p>
+                  Never miss an appointment with automated emails and reminders
+                  for updating your health data.
+                </p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="carousel-item-content">
+                <div class="carousel-item-icon">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16 12H8C6.89543 12 6 11.1046 6 10V6C6 4.89543 6.89543 4 8 4H16C17.1046 4 18 4.89543 18 6V10C18 11.1046 17.1046 12 16 12Z"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M20 20L16 16"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </div>
+                <h3>Nearby Hospitals Locator</h3>
+                <p>
+                  Find hospitals near you with ease using location-based
+                  services.
+                </p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="carousel-item-content">
+                <div class="carousel-item-icon">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M8 9H16C16.5304 9 17.0391 9.21071 17.4142 9.58579C17.7893 9.96086 18 10.4696 18 11V17C18 17.5304 17.7893 18.0391 17.4142 18.4142C17.0391 18.7893 16.5304 19 16 19H8C7.46957 19 6.96086 18.7893 6.58579 18.4142C6.21071 18.0391 6 17.5304 6 17V11C6 10.4696 6.21071 9.96086 6.58579 9.58579C6.96086 9.21071 7.46957 9 8 9Z"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M12 15H12.01"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </div>
+                <h3>Bed Availability</h3>
+                <p>Check real-time bed availability in nearby hospitals.</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div class="carousel-item-content">
+                <div class="carousel-item-icon">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M3 10H21M3 14H21M17 6V18C17 18.5304 16.7893 19.0391 16.4142 19.4142C16.0391 19.7893 15.5304 20 15 20H9C8.46957 20 7.96086 19.7893 7.58579 19.4142C7.21071 19.0391 7 18.5304 7 18V6"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </div>
+                <h3>Manage Appointments</h3>
+                <p>
+                  Track your appointments and tests, with the option to
+                  reschedule seamlessly.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-nav">
+            <div class="carousel-nav-item active"></div>
+            <div class="carousel-nav-item"></div>
+            <div class="carousel-nav-item"></div>
+            <div class="carousel-nav-item"></div>
+            <div class="carousel-nav-item"></div>
+            <div class="carousel-nav-item"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Modal -->
+      <div class="overlay" id="overlay"></div>
+      <div class="modal" id="modal">
+        <h2>Select Your Role</h2>
+        <div class="modal-buttons">
+          <button class="modal-button" id="patientButton">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              width="20"
+              height="20"
+              style="margin-right: 8px"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 12H9m6 0a6 6 0 100-12 6 6 0 000 12zM9 12v10m6-10v10m4 2H5m16 0h-2"
+              />
+            </svg>
+            Continue as Patient
+          </button>
+          <button class="modal-button" id="hospitalButton">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              width="20"
+              height="20"
+              style="margin-right: 8px"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 21v-4a4 4 0 014-4h10a4 4 0 014 4v4M7 3h10M7 3L5 7m2-4h10m0 0l2 4m-2-4V3m0 0L7 3m6 12h.01M11 16h2"
+              />
+            </svg>
+            Continue as Hospital
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>
+        &copy; 2025 AuraMed. All rights reserved.
+        <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+      </p>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const carousel = document.querySelector(".carousel");
+        const carouselItems = document.querySelectorAll(".carousel-item");
+        const carouselNavItems =
+          document.querySelectorAll(".carousel-nav-item");
+        let currentIndex = 0;
+
+        function showSlide(index) {
+          carousel.style.transform = `translateX(-${index * 100}%)`;
+          carouselNavItems.forEach((item, i) => {
+            item.classList.toggle("active", i === index);
+          });
+        }
+
+        function nextSlide() {
+          currentIndex = (currentIndex + 1) % carouselItems.length;
+          showSlide(currentIndex);
+        }
+
+        carouselNavItems.forEach((item, index) => {
+          item.addEventListener("click", () => {
+            currentIndex = index;
+            showSlide(currentIndex);
+          });
+        });
+
+        setInterval(nextSlide, 2000);
+      });
+
+      const startButton = document.getElementById("startButton");
+      const modal = document.getElementById("modal");
+      const overlay = document.getElementById("overlay");
+      const patientButton = document.getElementById("patientButton");
+      const hospitalButton = document.getElementById("hospitalButton");
+
+      startButton.addEventListener("click", () => {
+        modal.style.display = "block";
+        overlay.style.display = "block";
+      });
+
+      overlay.addEventListener("click", () => {
+        modal.style.display = "none";
+        overlay.style.display = "none";
+      });
+
+      patientButton.addEventListener("click", () => {
+        window.location.href = "/login";
+      });
+
+      hospitalButton.addEventListener("click", () => {
+        window.location.href = "/hoslogin";
+      });
+    </script>
+  </body>
+</html>
